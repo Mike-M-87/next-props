@@ -44,57 +44,64 @@ export async function _makeRequest({ query, variables, headers, getData }) {
   }
 }
 
-export function GET_AUCTIONS_BY_STATUS(status = "Closed") {
+
+export function GET_COMMUNITIES() {
   const query = `
-    query($status:AuctionStatus!) {
-        auctionsByStatus(status: $status) {
-            id
-            title
-            startTime
-            proposalEndTime
-            votingEndTime
-            fundingAmount
-            currencyType
-            description
-            createdDate
-            balanceBlockTag
-            status
-            numWinners
-            proposals {
-                address
-                id
-                title
-                what
-                tldr
-                auctionId
-                votes {
-                address
-                id
-                direction
-                createdDate
-                proposalId
-                auctionId
-                weight
-                }
-                voteCount
-                createdDate
-            }
-            community {
-                id
-                contractAddress
-                name
-                profileImageUrl
-                description
-                numAuctions
-                createdDate
-            }
+  {
+    communities {
+      id
+      contractAddress
+      name
+      profileImageUrl
+    }
+  }
+  `;
+  return _makeRequest({
+    query,
+    getData: (data) => data.communities,
+  });
+}
+
+export function GET_COMMUNITY(communityId) {
+  const query = `
+  query($id: Int!) {
+    community(id: $id) {
+      id
+      contractAddress
+      name
+      profileImageUrl
+      description
+      numAuctions
+      createdDate
+      auctions {
+        id
+        title
+        startTime
+        proposalEndTime
+        votingEndTime
+        fundingAmount
+        currencyType
+        description
+        createdDate
+        status
+        numWinners
+        proposals {
+          address
+          id
+          title
+          auctionId
+          voteCount
+          createdDate
         }
-    }`;
+      }
+    }
+  }
+  `;
   return _makeRequest({
     query,
     variables: {
-      status: status,
+      id: communityId,
     },
-    getData: (data) => data.auctionsByStatus,
+    getData: (data) => data.community,
   });
 }
