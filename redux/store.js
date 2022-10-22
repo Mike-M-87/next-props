@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { communitiesSlice, sidebarSlice } from "./reducers";
+import { communitySlice, sidebarSlice } from "./reducers";
 
 export default configureStore({
   reducer: {
     sidebar: sidebarSlice.reducer,
-    communities: communitiesSlice.reducer,
+    community: communitySlice.reducer,
   },
 });

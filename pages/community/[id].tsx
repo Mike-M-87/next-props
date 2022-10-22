@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Provider, useSelector } from "react-redux";
+import Icon from "../../components/icon";
 import Layout from "../../components/layout";
 import Loader from "../../components/loading";
 import { GET_COMMUNITY } from "../../graphql/queries";
-import store from "../../redux/store";
 
 export interface Auction {
   id: number
@@ -38,22 +38,18 @@ export async function getServerSideProps({ params }) {
 }
 
 export default function Community({ communityId }) {
-  return (<Provider store={store}>
-    <CommunityDetails communityId={communityId} />
-  </Provider>
-  )
-}
-
-
-export function CommunityDetails({ communityId }) {
   const [auctions, setAuctions] = useState<Auction[]>(null)
   const [loading, setLoading] = useState<boolean>(true)
-  const { communities } = useSelector((state: any) => state.communities);
+  const { community } = useSelector((state: any) => state.community);
 
 
   useEffect(() => {
     async function FetchAuctions() {
-      const response = await GET_COMMUNITY(parseInt(communityId));
+      let id = parseInt(communityId)
+      if (!id) {
+        id = 1
+      }
+      const response = await GET_COMMUNITY(id);
       if (!response.success) {
         return
       }
@@ -72,6 +68,9 @@ export function CommunityDetails({ communityId }) {
       if (localStorage.getItem("auctions" + communityId)) {
         setAuctions(JSON.parse(localStorage.getItem("auctions" + communityId)))
         setLoading(false)
+      } else {
+        setLoading(true)
+
       }
       await FetchAuctions()
     }
@@ -86,28 +85,34 @@ export function CommunityDetails({ communityId }) {
         <table>
           <thead>
             <tr>
-              <th>Address</th>
-              <th>Vote-Count</th>
-              <th></th>
+              <th>{"Winner's Address"}</th>
+              <th className="vote-heading">Vote Count</th>
+              <th>Amount</th>
+              <th>Poap Reward</th>
             </tr>
           </thead>
 
           {auctions && auctions.map((auction: Auction, index) => (
             <tbody key={index}>
-              <tr><th colSpan={2}>{auction.title}</th></tr>
-              {
-                auction.proposals.map((propasal: Proposal, index) => (
-                  index < auction.numWinners &&
-                  <tr key={index}>
-                    <td>{propasal.address}</td>
-                    <td>{propasal.voteCount}</td>
-                    <td><button>Claim</button></td>
-                  </tr>
-                ))}
+              <tr><th>
+                <a target="_blank" rel="noreferrer" className="auction-title" href={`https://prop.house/${community?.name.replace(" ", "-").toLowerCase()}/${auction.title.replace(" ", "-").toLowerCase()}`}>
+                  {auction.title}
+                </a>
+              </th></tr>
+              {auction.proposals.map((propasal: Proposal, index) => (
+                index < auction.numWinners &&
+                <tr className="proposal-item" key={index}>
+                  <td>{propasal.address}</td>
+                  <td>{parseInt(propasal.voteCount.toString())}</td>
+                  <td>{auction.fundingAmount} {auction.currencyType}</td>
+                  <td><button onClick={() => alert("Please Connect your Wallet to Mint")} className="claim-button">Claim</button></td>
+                </tr>
+              ))}
             </tbody>
           ))}
         </table>
       }
     </Layout>
+
   );
 }

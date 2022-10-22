@@ -1,11 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GET_COMMUNITIES } from "../graphql/queries";
-import { communitiesActions, sidebarActions } from "../redux/reducers";
-
+import { communityActions, sidebarActions } from "../redux/reducers";
+import Icon from "./icon";
+import Loader from "./loading";
 
 export interface Community {
   id: number
@@ -15,10 +15,12 @@ export interface Community {
   description: string
 }
 
-
 export default function Layout({ children }) {
   const { showNav } = useSelector((state: any) => state.sidebar);
+  const { community } = useSelector((state: any) => state.community);
+
   const [communities, setCommunities] = useState<Community[]>(null)
+  const [loading, setLoading] = useState<boolean>(true)
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -31,41 +33,57 @@ export default function Layout({ children }) {
       const fetchedCommunities: Community[] = response.body
       localStorage.setItem("communities", JSON.stringify(fetchedCommunities))
       setCommunities(fetchedCommunities)
+      setLoading(false)
     };
 
-    async function LoadAuctions() {
+    async function LoadCommunities() {
       if (localStorage.getItem("communities")) {
         setCommunities(JSON.parse(localStorage.getItem("communities")))
+        setLoading(false)
       } else {
-        await FetchCommunities()
+        setLoading(true)
       }
+      await FetchCommunities()
     }
-
-    LoadAuctions()
+    LoadCommunities()
   }, [])
 
   return (
-    <>
-      <nav className="sidebar">
-        <button onClick={() => dispatch(sidebarActions.toggle())}>open</button>
-        {communities &&
-          communities.map((community, index) => (
-            <Link href={`/community/${community.id}`} key={index}>
-              <a className="community-item">
-                <img
-                  src={community.profileImageUrl}
-                  width={50}
-                  height={50}
-                  alt={community.name}
-                />
-                {showNav && <span>{community.name}</span>}
-              </a>
-            </Link>
-          ))}
-      </nav>
-      <main className="layout-main">
-        {children}
-      </main>
-    </>
+    loading ?
+      <Loader /> :
+      <>
+        <nav className="sidebar">
+          <button className="sidebar-toggle" onClick={() => dispatch(sidebarActions.toggle())}>
+            <Icon n="menu" />
+          </button>
+          {communities &&
+            communities.map((community, index) => (
+              <Link href={`/community/${community.id}`} key={index}>
+                <a onClick={() => dispatch(communityActions.update(community))} className="community-item">
+                  <img
+                    src={community.profileImageUrl}
+                    alt={community.name}
+                  />
+                  {showNav && <span>{community.name}</span>}
+                </a>
+              </Link>
+            ))}
+        </nav>
+        <main className={showNav ? "main" : "mainfull"} >
+          <nav className="top-nav">
+            <a href="https://prop.house" target="_blank" rel="noreferrer" className="prop-link">
+              PROPHOUSE
+            </a>
+            <button className="wallet-button">CONNECT WALLET</button>
+          </nav>
+          <h2 className="main-header">PropHouse Winners for{" "}
+            <a target="_blank" rel="noreferrer" href={`https://prop.house/${community?.name.replace(" ", "-").toLowerCase()}`}>
+              {community?.name || "Nouns"}
+            </a>
+          </h2>
+          <p>Claim your noun poap here</p>
+          {children}
+        </main>
+      </>
   );
 }

@@ -1,14 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap");
 html,
 body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: "Share Tech Mono", monospace;
 }
 * {
   box-sizing: border-box;
 }
 
+:root {
+  --accentcolor: rgb(255, 169, 0);
+}
 .fh-100 {
   height: 100vh;
 }
@@ -35,37 +36,131 @@ body {
 
 .sidebar {
   width: max-content;
-  padding: 10px;
-  height: 100vh;
+  padding: 0.5%;
+  height: 100%;
   position: fixed;
   z-index: 1;
   top: 0;
-  left: 0;
-  background-color: rgb(15, 16, 17);
   overflow-x: hidden;
+  overflow-y: scroll;
+  left: 0;
+  background-color: whitesmoke;
   display: flex;
-  transition: 0.5s all ease-in;
+  justify-content: space-between;
   flex-direction: column;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 2px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: whitesmoke;
 }
 
 .community-item {
   display: flex;
+  margin-top: 10px;
   align-items: center;
-  margin: 20px;
+  text-decoration: none;
   justify-content: space-between;
 }
 
-.layout-main {
-  margin-left: auto;
+.community-item span {
+  margin-left: 20px;
 }
 
+.community-item img {
+  border-radius: 10px;
+  width: 50px;
+  height: 50px;
+}
+
+.top-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.wallet-button {
+  padding: 10px;
+  background-color: var(--accentcolor);
+  color: black;
+  font-family: "Share Tech Mono", monospace;
+}
+
+.claim-button {
+  padding: 5px;
+  background-color: var(--accentcolor);
+  color: black;
+  font-family: "Share Tech Mono", monospace;
+}
+
+.prop-link {
+  color: var(--accentcolor);
+}
+
+.main {
+  margin-left: 420px;
+}
+.mainfull {
+  margin-left: 120px;
+}
+
+.sidebar-toggle {
+  background-color: transparent;
+  border: none;
+  align-self: flex-start;
+}
+
+.sidebar-toggle span {
+  font-size: 37px;
+}
+
+table,
+tbody,
+thead {
+  display: block;
+}
+tr {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.auction-title {
+  font-size: 25px;
+  color: var(--accentcolor);
+  text-decoration: none;
+}
+.auction-title span {
+  color: var(--accentcolor);
+  font-size: 15px;
+  margin-left: 5px;
+}
+
+.main-header a {
+  color: var(--accentcolor);
+}
+
+.vote-heading {
+  margin-left: 260px;
+}
 
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
   }
+  * {
+    color: whitesmoke;
+  }
   body {
-    color: white;
     background: black;
+  }
+  .sidebar {
+    background-color: rgb(15, 16, 17);
   }
 }

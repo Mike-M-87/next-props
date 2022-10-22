@@ -12,17 +12,15 @@ export const sidebarSlice = createSlice({
   },
 });
 
-export const communitiesSlice = createSlice({
-  name: "communities",
-  initialState: {
-    communities: null,
-  },
+export const communitySlice = createSlice({
+  name: "community",
+  initialState: { community: { name: "Nouns" } },
   reducers: {
     update: (state, action) => {
-      state.communities = action.payload;
+      state.community = action.payload;
     },
   },
 });
 
-export const communitiesActions = communitiesSlice.actions;
 export const sidebarActions = sidebarSlice.actions;
+export const communityActions = communitySlice.actions;
