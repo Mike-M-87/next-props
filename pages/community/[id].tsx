@@ -43,6 +43,7 @@ export default function Community({ communityId }) {
   const { community } = useSelector((state: any) => state.community);
 
 
+
   useEffect(() => {
     async function FetchAuctions() {
       let id = parseInt(communityId)

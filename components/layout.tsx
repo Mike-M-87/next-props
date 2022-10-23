@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GET_COMMUNITIES } from "../graphql/queries";
 import { communityActions, sidebarActions } from "../redux/reducers";
+import Connect from "./connect";
 import Icon from "./icon";
 import Loader from "./loading";
 
@@ -74,7 +75,7 @@ export default function Layout({ children }) {
             <a href="https://prop.house" target="_blank" rel="noreferrer" className="prop-link">
               PROPHOUSE
             </a>
-            <button className="wallet-button">CONNECT WALLET</button>
+            <Connect />
           </nav>
           <h2 className="main-header">PropHouse Winners for{" "}
             <a target="_blank" rel="noreferrer" href={`https://prop.house/${community?.name.replace(" ", "-").toLowerCase()}`}>

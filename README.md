@@ -1,6 +1,6 @@
-A List of [PropHouse](https://prop.house) Winners
+A List of [Prophouse](https://prop.house) Winners
 
-[`Prophouse playground/api`](https://prod.backend.prop.house/graphql).
+[`Prophouse graphql playground/api`](https://prod.backend.prop.house/graphql)
 ## How to Run
 
 ```bash

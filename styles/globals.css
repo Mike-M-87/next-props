@@ -2,6 +2,7 @@
 html,
 body {
   font-family: "Share Tech Mono", monospace;
+  accent-color: var(--accentcolor);
 }
 * {
   box-sizing: border-box;
@@ -36,8 +37,8 @@ body {
 
 .sidebar {
   width: max-content;
-  padding: 0.5%;
   height: 100%;
+  padding: 10px;
   position: fixed;
   z-index: 1;
   top: 0;
@@ -61,13 +62,20 @@ body {
 .community-item {
   display: flex;
   margin-top: 10px;
+  padding: 10px;
+  border-radius: 10px;
   align-items: center;
   text-decoration: none;
   justify-content: space-between;
 }
 
 .community-item span {
-  margin-left: 20px;
+  margin-left: 10px;
+  color: black;
+}
+
+.community-item:hover {
+  background-color: white;
 }
 
 .community-item img {
@@ -83,22 +91,24 @@ body {
   flex-wrap: wrap;
 }
 
-.wallet-button {
+.claim-button {
   padding: 10px;
   background-color: var(--accentcolor);
   color: black;
   font-family: "Share Tech Mono", monospace;
+  border: none;
+  font-size: 15px;
+  transition: 0.1s transform;
+  cursor: pointer;
 }
 
-.claim-button {
-  padding: 5px;
-  background-color: var(--accentcolor);
-  color: black;
-  font-family: "Share Tech Mono", monospace;
+.claim-button:hover {
+  transform: scale(1.1, 1.1);
 }
 
 .prop-link {
   color: var(--accentcolor);
+  font-size: 20px;
 }
 
 .main {
@@ -112,10 +122,14 @@ body {
   background-color: transparent;
   border: none;
   align-self: flex-start;
+  margin: 10px 15px;
 }
 
+.sidebar-toggle span:hover {
+  color: var(--accentcolor);
+}
 .sidebar-toggle span {
-  font-size: 37px;
+  font-size: 30px;
 }
 
 table,
@@ -154,13 +168,19 @@ tr {
   html {
     color-scheme: dark;
   }
-  * {
-    color: whitesmoke;
-  }
   body {
+    color: whitesmoke;
     background: black;
   }
   .sidebar {
     background-color: rgb(15, 16, 17);
+  }
+
+  .community-item:hover {
+    background-color: black;
+  }
+
+  .community-item span {
+    color: whitesmoke;
   }
 }
