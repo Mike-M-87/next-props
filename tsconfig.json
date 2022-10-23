@@ -23,7 +23,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "components/layout.tsx", "pages/index.tsx", "components/connect.tsx"  ],
+, "components/layout.tsx", "pages/index.tsx", "components/connect.tsx", "pages/api/hello.ts", "pages/api/hello.ts"  ],
   "exclude": [
     "node_modules"
   ]
