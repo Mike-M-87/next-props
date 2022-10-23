@@ -9,6 +9,12 @@ export const sidebarSlice = createSlice({
     toggle: (state) => {
       state.showNav = !state.showNav;
     },
+    show: (state) => {
+      state.showNav = true;
+    },
+    hide: (state) => {
+      state.showNav = false;
+    },
   },
 });
 
@@ -22,7 +28,5 @@ export const communitySlice = createSlice({
   },
 });
 
-
 export const sidebarActions = sidebarSlice.actions;
 export const communityActions = communitySlice.actions;
-

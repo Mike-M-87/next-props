@@ -1,9 +1,6 @@
 import "@rainbow-me/rainbowkit/styles.css";
 import {
   ConnectButton,
-  cssObjectFromTheme,
-  cssStringFromTheme,
-  darkTheme,
   getDefaultWallets,
   lightTheme,
   midnightTheme,
@@ -12,14 +9,12 @@ import {
 import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { themeActions } from "../redux/reducers";
+import { ThemeOptions } from "@rainbow-me/rainbowkit/dist/themes/baseTheme";
 
 const { chains, provider } = configureChains(
   [chain.mainnet],
   [
-    alchemyProvider({ alchemyId: "sm5ZVtyqQSMIKDfb2Cbs5DEncZXouZSF" }),
+    alchemyProvider({ apiKey: "sm5ZVtyqQSMIKDfb2Cbs5DEncZXouZSF" }),
     publicProvider(),
   ]
 );
@@ -36,24 +31,13 @@ const wagmiClient = createClient({
 });
 
 export default function Connect() {
-  const buttonTheme = {
+  const buttonTheme: ThemeOptions = {
     accentColor: "#ffa900",
     accentColorForeground: "black",
     fontStack: "system",
     overlayBlur: "small",
     borderRadius: "none",
   };
-
-  //   useEffect(() => {
-  //     if (window && window.matchMedia) {
-  //       window
-  //         .matchMedia("(prefers-color-scheme: dark)")
-  //         .addEventListener("change", (event) => {
-  //           dispatch(themeActions.update(event.matches));
-  //         });
-  //     }
-  //     // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   }, []);
 
   return (
     <WagmiConfig client={wagmiClient}>

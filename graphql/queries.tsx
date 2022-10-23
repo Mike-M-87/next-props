@@ -58,11 +58,13 @@ export function GET_COMMUNITIES() {
   `;
   return _makeRequest({
     query,
-    getData: (data) => data.communities,
+    headers: {},
+    variables: {},
+    getData: (data: { communities: any; }) => data.communities,
   });
 }
 
-export function GET_COMMUNITY(communityId) {
+export function GET_COMMUNITY(communityId: number) {
   const query = `
   query($id: Int!) {
     community(id: $id) {
@@ -99,9 +101,10 @@ export function GET_COMMUNITY(communityId) {
   `;
   return _makeRequest({
     query,
+    headers: {},
     variables: {
       id: communityId,
     },
-    getData: (data) => data.community,
+    getData: (data: { community: any; }) => data.community,
   });
 }

@@ -35,8 +35,9 @@ body {
   }
 }
 
+.sidebarhide,
 .sidebar {
-  width: max-content;
+  /* width: max-content; */
   height: 100%;
   padding: 10px;
   position: fixed;
@@ -49,14 +50,24 @@ body {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+  transition: 0.4s;
 }
 
+.sidebar {
+  width: 300px;
+}
+.sidebarhide {
+  width: 90px;
+}
+
+.sidebarhide::-webkit-scrollbar,
 .sidebar::-webkit-scrollbar {
-  width: 2px;
+  width: 1px;
 }
 
+.sidebarhide::-webkit-scrollbar-thumb,
 .sidebar::-webkit-scrollbar-thumb {
-  background: whitesmoke;
+  background: var(--accentcolor);
 }
 
 .community-item {
@@ -72,6 +83,7 @@ body {
 .community-item span {
   margin-left: 10px;
   color: black;
+  text-align: end;
 }
 
 .community-item:hover {
@@ -111,11 +123,17 @@ body {
   font-size: 20px;
 }
 
+.main,
+.mainfull {
+  transition: 0.4s;
+  margin-top: 15px;
+  margin-right: 10px;
+}
 .main {
-  margin-left: 420px;
+  margin-left: 300px;
 }
 .mainfull {
-  margin-left: 120px;
+  margin-left: 100px;
 }
 
 .sidebar-toggle {
@@ -141,8 +159,14 @@ tr {
   display: flex;
   justify-content: space-between;
   width: 100%;
+  gap: 5px;
   flex-wrap: wrap;
   margin-top: 20px;
+}
+
+.prop-address {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .auction-title {
@@ -150,6 +174,7 @@ tr {
   color: var(--accentcolor);
   text-decoration: none;
 }
+
 .auction-title span {
   color: var(--accentcolor);
   font-size: 15px;
@@ -164,6 +189,12 @@ tr {
   margin-left: 260px;
 }
 
+@media only screen and (max-width: 720px) {
+  .vote-heading {
+    margin-left: 0;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
@@ -172,14 +203,13 @@ tr {
     color: whitesmoke;
     background: black;
   }
+  .sidebarhide,
   .sidebar {
     background-color: rgb(15, 16, 17);
   }
-
   .community-item:hover {
     background-color: black;
   }
-
   .community-item span {
     color: whitesmoke;
   }

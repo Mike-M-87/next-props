@@ -53,7 +53,7 @@ export default function Layout({ children }) {
     loading ?
       <Loader /> :
       <>
-        <nav className="sidebar">
+        <nav onMouseEnter={() => dispatch(sidebarActions.show())} onMouseLeave={() => dispatch(sidebarActions.hide())} className={showNav ? "sidebar" : "sidebarhide"}>
           <button className="sidebar-toggle" onClick={() => dispatch(sidebarActions.toggle())}>
             <Icon n="menu" />
           </button>
@@ -65,7 +65,7 @@ export default function Layout({ children }) {
                     src={community.profileImageUrl}
                     alt={community.name}
                   />
-                  {showNav && <span>{community.name}</span>}
+                  <span style={{ visibility: showNav ? "visible" : "collapse", transition: "0.3s" }}>{community.name}</span>
                 </a>
               </Link>
             ))}

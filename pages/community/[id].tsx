@@ -43,7 +43,6 @@ export default function Community({ communityId }) {
   const { community } = useSelector((state: any) => state.community);
 
 
-
   useEffect(() => {
     async function FetchAuctions() {
       let id = parseInt(communityId)
@@ -55,6 +54,9 @@ export default function Community({ communityId }) {
         return
       }
       const fetchedAuctions: Auction[] = response.body.auctions
+      fetchedAuctions.sort((a, b) => {
+        return new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime();
+      })
       fetchedAuctions.forEach((auction) => {
         auction.proposals.sort((a, b) => {
           return b.voteCount - a.voteCount
@@ -94,6 +96,7 @@ export default function Community({ communityId }) {
           </thead>
 
           {auctions && auctions.map((auction: Auction, index) => (
+            (auction.status == "Closed" || auction.status == "Voting") &&
             <tbody key={index}>
               <tr><th>
                 <a target="_blank" rel="noreferrer" className="auction-title" href={`https://prop.house/${community?.name.replace(" ", "-").toLowerCase()}/${auction.title.replace(" ", "-").toLowerCase()}`}>
@@ -103,7 +106,7 @@ export default function Community({ communityId }) {
               {auction.proposals.map((propasal: Proposal, index) => (
                 index < auction.numWinners &&
                 <tr className="proposal-item" key={index}>
-                  <td>{propasal.address}</td>
+                  <td className="prop-address">{propasal.address}</td>
                   <td>{parseInt(propasal.voteCount.toString())}</td>
                   <td>{auction.fundingAmount} {auction.currencyType}</td>
                   <td><button onClick={() => alert("Please Connect your Wallet to Mint")} className="claim-button">Claim</button></td>
@@ -114,6 +117,5 @@ export default function Community({ communityId }) {
         </table>
       }
     </Layout>
-
   );
 }
