@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { Provider, useSelector } from "react-redux";
-import Icon from "../../components/icon";
+import {  useSelector } from "react-redux";
 import Layout from "../../components/layout";
 import Loader from "../../components/loading";
 import { GET_COMMUNITY } from "../../graphql/queries";
