@@ -46,6 +46,7 @@ export default function CommunityPage({ communityId, communityImage, communityNa
   const [auctions, setAuctions] = useState<Auction[]>(null)
   const [loading, setLoading] = useState<boolean>(true)
   const { community } = useSelector((state: any) => state.community);
+  const isDesktopResolution = useMatchMedia('(min-width:720px)', true)
 
 
   const response = CACHED_COMMUNITY.find((comm)=>{ comm.id == 1 })
@@ -142,9 +143,9 @@ export default function CommunityPage({ communityId, communityImage, communityNa
                 {auction.proposals.map((propasal: Proposal, index) => (
                   index < auction.numWinners &&
                   <tr className="proposal-item" key={index}>
-                    <td className="prop-address">{propasal.address}</td>
+                    <td className="prop-address">{isDesktopResolution ? propasal.address : addDotsForLongAddr(propasal.address)}</td>
                     <td>{parseInt(propasal.voteCount.toString())}</td>
-                    <td>{auction.fundingAmount} {auction.currencyType}</td>
+                    <td>{auction.fundingAmount} {auction.currencyType} Ξ </td>
                     <td><button onClick={() => alert("Please Connect your Wallet to Mint")} className="claim-button">Claim</button></td>
                   </tr>
                 ))}
@@ -155,4 +156,36 @@ export default function CommunityPage({ communityId, communityImage, communityNa
       </Layout>
     </>
   );
+}
+
+
+const useMatchMedia = (mediaQuery, initialValue) => {
+  const [isMatching, setIsMatching] = useState(initialValue)
+  useEffect(() => {
+    const watcher = window.matchMedia(mediaQuery)
+    setIsMatching(watcher.matches)
+    const listener = (matches) => {
+      setIsMatching(matches.matches)
+    }
+
+    if (watcher.addEventListener) {
+      watcher.addEventListener('change', listener)
+    }
+
+    return () => {
+      if (watcher.removeEventListener) {
+        return watcher.removeEventListener('change', listener)
+      }
+    }
+  }, [mediaQuery])
+
+  return isMatching
+}
+
+const addDotsForLongAddr = (longAddr) => {
+  let len = longAddr.length
+  if (len < 20) {
+    return longAddr;
+  }
+  return longAddr.slice(0, 6) + "..." + longAddr.slice(len - 4, len)
 }

@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap");
+
 html,
 body {
   font-family: "Share Tech Mono", monospace;
@@ -153,18 +154,30 @@ body {
   font-size: 30px;
 }
 
-table,
-tbody,
-thead {
+table{
   display: block;
+  border-collapse: separate;
+  box-sizing: border-box;
+  text-indent: initial;
+  border-spacing: 2px;
+  border-color: grey;
 }
+
+th{
+  display: table-cell;
+  vertical-align: inherit;
+}
+
 tr {
+  /* border: solid rgb(236, 236, 236); */
+  white-space: nowrap;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
-  gap: 5px;
+  /* gap: 1px; */
   flex-wrap: wrap;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .prop-address {
@@ -203,6 +216,7 @@ tr {
   .main{
     margin-left: 100px;
   }
+
 }
 
 @media (prefers-color-scheme: dark) {
