@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import Layout from "../../components/layout";
 import Loader from "../../components/loading";
 import { GET_COMMUNITY } from "../../graphql/queries";
-import { CACHED_COMMUNITY } from "../../data/communities";
+import { AUCTION_TEST, CACHED_COMMUNITY } from "../../data/communities";
 
 export interface Auction {
   id: number
@@ -46,7 +46,7 @@ export default function CommunityPage({ communityId, communityImage, communityNa
   const [auctions, setAuctions] = useState<Auction[]>(null)
   const [loading, setLoading] = useState<boolean>(true)
   const { community } = useSelector((state: any) => state.community);
-  const isDesktopResolution = useMatchMedia('(min-width:720px)', true)
+  const isDesktopResolution = useMatchMedia('(min-width:800px)', true)
 
   useEffect(() => {
     async function FetchAuctions() {
@@ -56,6 +56,7 @@ export default function CommunityPage({ communityId, communityImage, communityNa
       if (!response.success) {
         return
       }
+      // const response = AUCTION_TEST;
       const fetchedAuctions: Auction[] = response.body.auctions
       fetchedAuctions.sort((a, b) => {
         return new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime();
@@ -121,10 +122,11 @@ export default function CommunityPage({ communityId, communityImage, communityNa
           <table>
             <thead>
               <tr>
+                <th style={{width:"5px"}}># Postion</th>
                 <th>{"Winner's Address"}</th>
                 <th className="vote-heading">Vote Count</th>
                 <th>Amount</th>
-                <th>Poap Reward</th>
+                <th> Reward</th>
               </tr>
             </thead>
 
@@ -138,11 +140,12 @@ export default function CommunityPage({ communityId, communityImage, communityNa
                 </th></tr>
                 {auction.proposals.map((propasal: Proposal, index) => (
                   index < auction.numWinners &&
-                  <tr className="proposal-item" key={index}>
+                    <tr  key={index}>
+                    <td>{(index+1) + " >>"}</td>
                     <td className="prop-address">{isDesktopResolution ? propasal.address : addDotsForLongAddr(propasal.address)}</td>
                     <td>{parseInt(propasal.voteCount.toString())}</td>
                     <td>{auction.fundingAmount} {auction.currencyType} Ξ </td>
-                    <td><button onClick={() => alert("Please Connect your Wallet to Mint")} className="claim-button">Claim</button></td>
+                    <td><button onClick={() => alert("Please Connect your Wallet to Mint")} className="claim-button">Claim NFT</button></td>
                   </tr>
                 ))}
               </tbody>

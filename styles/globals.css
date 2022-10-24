@@ -11,6 +11,7 @@ body {
 
 :root {
   --accentcolor: rgb(255, 169, 0);
+  --table-color: grey;
 }
 .fh-100 {
   height: 100vh;
@@ -108,6 +109,7 @@ body {
 }
 
 .claim-button {
+  /* margin-left: 50px;; */
   padding: 10px;
   background-color: var(--accentcolor);
   color: black;
@@ -156,7 +158,7 @@ body {
 
 table{
   display: block;
-  border-collapse: separate;
+  border-collapse: collapse;
   box-sizing: border-box;
   text-indent: initial;
   border-spacing: 2px;
@@ -164,25 +166,24 @@ table{
 }
 
 th{
-  display: table-cell;
   vertical-align: inherit;
+  padding: 10px;
 }
 
 tr {
   /* border: solid rgb(236, 236, 236); */
-  white-space: nowrap;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  /* gap: 1px; */
-  flex-wrap: wrap;
   margin-top: 10px;
 }
 
+td {
+  white-space: nowrap;
+  border:1px solid var(--table-color);
+  text-align: center;
+  padding: 5px;
+}
+
 .prop-address {
-  overflow: hidden;
-  text-overflow: ellipsis;
+  padding:0 50px;
 }
 
 .auction-title {
@@ -215,6 +216,7 @@ tr {
   }
   .main{
     margin-left: 100px;
+    color:w
   }
 
 }
@@ -237,4 +239,7 @@ tr {
   .community-item span {
     color: whitesmoke;
   }
+
+  /* table-color: grey;
+  } */
 }
