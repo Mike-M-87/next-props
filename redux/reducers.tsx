@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
+import {useMatchMedia} from "../pages/community/[id]";
 
 export const sidebarSlice = createSlice({
   name: "sidebar",
   initialState: {
-    showNav: true,
+    showNav: false,
   },
   reducers: {
     toggle: (state) => {
