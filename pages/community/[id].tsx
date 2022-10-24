@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import Layout from "../../components/layout";
 import Loader from "../../components/loading";
 import { GET_COMMUNITY } from "../../graphql/queries";
-import { CACHED_COMMUNITY } from "../data/communities";
+import { CACHED_COMMUNITY } from "../../data/communities";
 
 export interface Auction {
   id: number
