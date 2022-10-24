@@ -48,10 +48,6 @@ export default function CommunityPage({ communityId, communityImage, communityNa
   const { community } = useSelector((state: any) => state.community);
   const isDesktopResolution = useMatchMedia('(min-width:720px)', true)
 
-
-  const response = CACHED_COMMUNITY.find((comm)=>{ comm.id == 1 })
-  console.log(response)
-
   useEffect(() => {
     async function FetchAuctions() {
       let id = parseInt(communityId) || 1
@@ -159,7 +155,7 @@ export default function CommunityPage({ communityId, communityImage, communityNa
 }
 
 
-const useMatchMedia = (mediaQuery, initialValue) => {
+export const useMatchMedia = (mediaQuery, initialValue) => {
   const [isMatching, setIsMatching] = useState(initialValue)
   useEffect(() => {
     const watcher = window.matchMedia(mediaQuery)
