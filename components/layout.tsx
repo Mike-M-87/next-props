@@ -16,7 +16,7 @@ export interface Community {
   description: string
 }
 
-export default function Layout({ children,currentPageId = 1 }) {
+export default function Layout({ children, currentPageId = 1 }) {
   const { showNav } = useSelector((state: any) => state.sidebar);
   const { community } = useSelector((state: any) => state.community);
 
@@ -33,8 +33,8 @@ export default function Layout({ children,currentPageId = 1 }) {
 
       const fetchedCommunities: Community[] = response.body
       response.body.sort((a, b) => {
-          return a.id - b.id
-        })
+        return a.id - b.id
+      })
 
       localStorage.setItem("communities", JSON.stringify(fetchedCommunities))
       setCommunities(fetchedCommunities)
@@ -64,7 +64,7 @@ export default function Layout({ children,currentPageId = 1 }) {
           {communities &&
             communities.sort().map((community, index) => (
               <Link href={`/community/${community.id}`} key={index}>
-                <a onClick={() => dispatch(communityActions.update(community))} className={"community-item "+ (currentPageId == community.id ? "set-active" :"white") }>
+                <a onClick={() => dispatch(communityActions.update(community))} className={"community-item " + (currentPageId == community.id ? "set-active" : "white")}>
                   <img
                     alt={community.name}
                     src={community.profileImageUrl}

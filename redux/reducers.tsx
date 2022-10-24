@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {useMatchMedia} from "../pages/community/[id]";
 
 export const sidebarSlice = createSlice({
   name: "sidebar",

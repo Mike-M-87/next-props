@@ -4,7 +4,8 @@ import { useSelector } from "react-redux";
 import Layout from "../../components/layout";
 import Loader from "../../components/loading";
 import { GET_COMMUNITY } from "../../graphql/queries";
-import { AUCTION_TEST, CACHED_COMMUNITY } from "../../data/communities";
+import { CACHED_COMMUNITY } from "../../data/communities";
+import NFTModal from "../../components/modal";
 
 export interface Auction {
   id: number
@@ -31,7 +32,7 @@ export interface Proposal {
 }
 
 export async function getServerSideProps({ params }) {
-  let response = CACHED_COMMUNITY.find((c)=>{return c.id == params.id})
+  let response = CACHED_COMMUNITY.find((c) => { return c.id == params.id })
 
   return {
     props: {
@@ -47,6 +48,7 @@ export default function CommunityPage({ communityId, communityImage, communityNa
   const [loading, setLoading] = useState<boolean>(true)
   const { community } = useSelector((state: any) => state.community);
   const isDesktopResolution = useMatchMedia('(min-width:800px)', true)
+  const [viewPopup, setViewPopup] = useState(false)
 
   useEffect(() => {
     async function FetchAuctions() {
@@ -122,7 +124,7 @@ export default function CommunityPage({ communityId, communityImage, communityNa
           <table>
             <thead>
               <tr>
-                <th style={{width:"5px"}}># Postion</th>
+                <th style={{ width: "5px" }}># Postion</th>
                 <th>{"Winner's Address"}</th>
                 <th className="vote-heading">Vote Count</th>
                 <th>Amount</th>
@@ -133,24 +135,29 @@ export default function CommunityPage({ communityId, communityImage, communityNa
             {auctions && auctions.map((auction: Auction, index) => (
               (auction.status == "Closed" || auction.status == "Voting") &&
               <tbody key={index}>
-                <tr><th>
+                <tr><th colSpan={5}>
                   <a target="_blank" rel="noreferrer" className="auction-title" href={`https://prop.house/${community?.name.replace(" ", "-").toLowerCase()}/${auction.title.replace(" ", "-").toLowerCase()}`}>
                     {auction.title}
                   </a>
                 </th></tr>
                 {auction.proposals.map((propasal: Proposal, index) => (
                   index < auction.numWinners &&
-                    <tr  key={index}>
-                    <td>{(index+1) + " >>"}</td>
+                  <tr key={index}>
+                    <td>{(index + 1) + " >>"}</td>
                     <td className="prop-address">{isDesktopResolution ? propasal.address : addDotsForLongAddr(propasal.address)}</td>
                     <td>{parseInt(propasal.voteCount.toString())}</td>
                     <td>{auction.fundingAmount} {auction.currencyType} Ξ </td>
-                    <td><button onClick={() => alert("Please Connect your Wallet to Mint")} className="claim-button">Claim NFT</button></td>
+                    <td><button onClick={() => setViewPopup(true)} className="claim-button">View</button></td>
                   </tr>
                 ))}
               </tbody>
             ))}
           </table>
+        }
+        {viewPopup &&
+          <NFTModal onClosePopup={() => setViewPopup(false)}>
+            
+          </NFTModal>
         }
       </Layout>
     </>

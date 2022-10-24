@@ -51,6 +51,7 @@ export default function Connect() {
         modalSize="compact"
       >
         <ConnectButton
+          label="Connect"
           accountStatus={{ smallScreen: "avatar", largeScreen: "full" }}
           showBalance={true}
           chainStatus={{ smallScreen: "icon", largeScreen: "full" }}
