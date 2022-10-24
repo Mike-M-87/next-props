@@ -16,7 +16,7 @@ export interface Community {
   description: string
 }
 
-export default function Layout({ children }) {
+export default function Layout({ children,currentPageId = 1 }) {
   const { showNav } = useSelector((state: any) => state.sidebar);
   const { community } = useSelector((state: any) => state.community);
 
@@ -32,6 +32,10 @@ export default function Layout({ children }) {
       }
 
       const fetchedCommunities: Community[] = response.body
+      response.body.sort((a, b) => {
+          return a.id - b.id
+        })
+
       localStorage.setItem("communities", JSON.stringify(fetchedCommunities))
       setCommunities(fetchedCommunities)
       setLoading(false)
@@ -53,17 +57,17 @@ export default function Layout({ children }) {
     loading ?
       <Loader /> :
       <>
-        <nav onMouseEnter={() => dispatch(sidebarActions.show())} onMouseLeave={() => dispatch(sidebarActions.hide())} className={showNav ? "sidebar" : "sidebarhide"}>
+        <nav className={showNav ? "sidebar" : "sidebarhide"}>
           <button className="sidebar-toggle" onClick={() => dispatch(sidebarActions.toggle())}>
             <Icon n="menu" />
           </button>
           {communities &&
-            communities.map((community, index) => (
+            communities.sort().map((community, index) => (
               <Link href={`/community/${community.id}`} key={index}>
-                <a onClick={() => dispatch(communityActions.update(community))} className="community-item">
+                <a onClick={() => dispatch(communityActions.update(community))} className={"community-item "+ (currentPageId == community.id ? "set-active" :"white") }>
                   <img
-                    src={community.profileImageUrl}
                     alt={community.name}
+                    src={community.profileImageUrl}
                   />
                   <span style={{ visibility: showNav ? "visible" : "collapse", transition: "0.3s" }}>{community.name}</span>
                 </a>

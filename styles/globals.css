@@ -77,17 +77,20 @@ body {
   border-radius: 10px;
   align-items: center;
   text-decoration: none;
-  justify-content: space-between;
+}
+
+.community-item:not(:not(.set-active)):hover{
+  background:orange
 }
 
 .community-item span {
   margin-left: 10px;
   color: black;
-  text-align: end;
+  text-overflow: hidden;
 }
 
 .community-item:hover {
-  background-color: white;
+  background-color: rgb(255, 169, 0,0.3);
 }
 
 .community-item img {
@@ -140,7 +143,7 @@ body {
   background-color: transparent;
   border: none;
   align-self: flex-start;
-  margin: 10px 15px;
+  margin: 10px 10px;
 }
 
 .sidebar-toggle span:hover {
@@ -185,6 +188,10 @@ tr {
   color: var(--accentcolor);
 }
 
+.set-active{
+  background-color: rgb(255, 169, 0,0.8);
+}
+
 .vote-heading {
   margin-left: 260px;
 }
@@ -192,6 +199,9 @@ tr {
 @media only screen and (max-width: 720px) {
   .vote-heading {
     margin-left: 0;
+  }
+  .main{
+    margin-left: 100px;
   }
 }
 
@@ -208,7 +218,7 @@ tr {
     background-color: rgb(15, 16, 17);
   }
   .community-item:hover {
-    background-color: black;
+  background-color: rgb(255, 169, 0,0.2);
   }
   .community-item span {
     color: whitesmoke;
