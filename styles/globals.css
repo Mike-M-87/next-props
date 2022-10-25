@@ -24,6 +24,12 @@ body {
   justify-content: center;
 }
 
+button {
+  font-size: 10px;
+  text-decoration: bold;
+  background-color: orange;
+}
+
 .loader {
   width: 120px;
   height: 20px;

@@ -50,12 +50,16 @@ export default function Connect() {
         coolMode={true}
         modalSize="compact"
       >
-        <ConnectButton
-          label="Connect"
-          accountStatus={{ smallScreen: "avatar", largeScreen: "full" }}
-          showBalance={true}
-          chainStatus={{ smallScreen: "icon", largeScreen: "full" }}
-        />
+
+        <div style={{display:"flex"}}>
+          <button style={{marginRight:10}}>Claim All Poaps</button>
+          <ConnectButton
+            label="Connect"
+            accountStatus={{ smallScreen: "avatar", largeScreen: "full" }}
+            showBalance={true}
+            chainStatus={{ smallScreen: "icon", largeScreen: "full" }}
+          />
+        </div>
       </RainbowKitProvider>
     </WagmiConfig>
   );

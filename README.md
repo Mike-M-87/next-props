@@ -8,3 +8,7 @@ npm run dev
 # or
 yarn dev
 ```
+
+
+# TODO
+Dynmic Favuicon and page titi

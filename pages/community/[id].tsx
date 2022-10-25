@@ -147,7 +147,7 @@ export default function CommunityPage({ communityId, communityImage, communityNa
                     <td className="prop-address">{isDesktopResolution ? propasal.address : addDotsForLongAddr(propasal.address)}</td>
                     <td>{parseInt(propasal.voteCount.toString())}</td>
                     <td>{auction.fundingAmount} {auction.currencyType} Ξ </td>
-                    <td><button onClick={() => setViewPopup(true)} className="claim-button">View</button></td>
+                    <td><button onClick={() => setViewPopup(true)} className="claim-button">View Poap</button></td>
                   </tr>
                 ))}
               </tbody>
