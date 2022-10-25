@@ -6,6 +6,9 @@ import Loader from "../../components/loading";
 import { GET_COMMUNITY } from "../../graphql/queries";
 import { CACHED_COMMUNITY } from "../../data/communities";
 import NFTModal from "../../components/modal";
+import { useConnect, useContractRead, useContractWrite, useWaitForTransaction } from "wagmi";
+import contractInterface from '../../data/abi.json';
+
 
 export interface Auction {
   id: number
@@ -48,7 +51,48 @@ export default function CommunityPage({ communityId, communityImage, communityNa
   const [loading, setLoading] = useState<boolean>(true)
   const { community } = useSelector((state: any) => state.community);
   const isDesktopResolution = useMatchMedia('(min-width:800px)', true)
-  const [viewPopup, setViewPopup] = useState(false)
+  const [viewPopup, setViewPopup] = useState({ show: false, address: null })
+
+
+
+  const [totalMinted, setTotalMinted] = useState(0);
+  const { isSuccess: isConnected } = useConnect();
+
+  const {
+    data: mintData,
+    write: mint,
+    isLoading: isMintLoading,
+    isSuccess: isMintStarted,
+  } = useContractWrite(
+    {
+      address: '0x86fbbb1254c39602a7b067d5ae7e5c2bdfd61a30',
+      abi: contractInterface,
+      mode: "prepared",
+      functionName: "mint",
+    }
+  );
+
+  const { data: totalSupplyData } = useContractRead({
+    address: '0x86fbbb1254c39602a7b067d5ae7e5c2bdfd61a30',
+    abi: contractInterface,
+    functionName: "totalSupply",
+    watch: true,
+  })
+
+  const { isSuccess: txSuccess } = useWaitForTransaction({
+    hash: mintData?.hash,
+  });
+
+  useEffect(() => {
+    if (totalSupplyData) {
+      setTotalMinted(Number(totalSupplyData));
+    }
+  }, [totalSupplyData]);
+
+  const isMinted = txSuccess;
+
+
+
 
   useEffect(() => {
     async function FetchAuctions() {
@@ -79,7 +123,6 @@ export default function CommunityPage({ communityId, communityImage, communityNa
         setLoading(false)
       } else {
         setLoading(true)
-
       }
       await FetchAuctions()
     }
@@ -147,17 +190,15 @@ export default function CommunityPage({ communityId, communityImage, communityNa
                     <td className="prop-address">{isDesktopResolution ? propasal.address : addDotsForLongAddr(propasal.address)}</td>
                     <td>{parseInt(propasal.voteCount.toString())}</td>
                     <td>{auction.fundingAmount} {auction.currencyType} Ξ </td>
-                    <td><button onClick={() => setViewPopup(true)} className="claim-button">View Poap</button></td>
+                    <td><button onClick={() => setViewPopup({ address: propasal.address, show: true, })} className="claim-button">View</button></td>
                   </tr>
                 ))}
               </tbody>
             ))}
           </table>
         }
-        {viewPopup &&
-          <NFTModal onClosePopup={() => setViewPopup(false)}>
-            
-          </NFTModal>
+        {viewPopup.show &&
+          <NFTModal address={viewPopup.address} onPressMint={() => viewPopup.address && mint()} onClosePopup={() => setViewPopup({ address: null, show: false })} />
         }
       </Layout>
     </>
@@ -188,7 +229,7 @@ export const useMatchMedia = (mediaQuery, initialValue) => {
   return isMatching
 }
 
-const addDotsForLongAddr = (longAddr) => {
+export const addDotsForLongAddr = (longAddr) => {
   let len = longAddr.length
   if (len < 20) {
     return longAddr;
